@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="report_freight_vendor_deliveryslip_document">
+        <t t-call="report.html_container">
+            <t t-call="report.external_layout">
+                <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+                <div class="page">
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div>
+                                <span><strong>Pickup Address:</strong></span>
+                            </div>
+                            <div t-if="o.warehouse_id and o.warehouse_id.partner_id" name="wh_partner_header">
+                                <div t-field="o.warehouse_id.partner_id"
+                                   t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true}'/>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row" style="padding-top:20px">
+                        <div class="col-xs-6">
+                            <div>
+                                <span><strong>Customer Address:</strong></span>
+                            </div>
+                            <div t-if="o.partner_shipping_id" name="partner_header">
+                                <div t-field="o.partner_shipping_id"
+                                   t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true}'/>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div>
+                        <span><strong>Customer Reference PO#:</strong></span> <span t-field="o.client_order_ref"/>
+                    </div>
+
+                    <h2>
+                        <span t-field="o.name"/>
+                    </h2>
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div>
+                                <span><strong>Total Weight:</strong></span> <span t-field="o.weight_order"/><span> lb(s)</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div>
+                                <span><strong>Delivery Method:</strong></span> <span t-field="o.carrier_id"/>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <table class="table table-condensed mt48" t-if="o.order_line">
+                        <thead>
+                            <tr>
+                                <th><strong>Product</strong></th>
+                                <th class="text-right"><strong>Quantity</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.order_line" t-as="line">
+                                <td><span t-field="line.product_id"/></td>
+                                <td class="text-right">
+                                    <span t-field="line.product_uom_qty"/>
+                                    <span t-field="line.product_uom"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="row" t-if="o.note">
+                        <div class="col-xs-12">
+                            <div>
+                                <span><strong>Notes: </strong><span t-field="o.note"/></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="footer">
+                    <div class="text-center" style="border-top: 1px solid black;">
+                        <ul class="list-inline">
+                            <li t-if="o.company_id.phone">Phone: <span t-field="o.company_id.phone"/></li>
+
+                            <li t-if="o.company_id.fax and o.company_id.phone">&amp;bull;</li>
+                            <li t-if="o.company_id.fax">Fax: <span t-field="o.company_id.fax"/></li>
+
+                            <li t-if="o.company_id.email and o.company_id.fax or o.company_id.email and o.company_id.phone">&amp;bull;</li>
+                            <li t-if="o.company_id.email">Email: <span t-field="o.company_id.email"/></li>
+
+                            <li t-if="o.company_id.website and o.company_id.email or o.company_id.website and o.company_id.fax or o.company_id.website and o.company_id.phone">&amp;bull;</li>
+                            <li t-if="o.company_id.website">Website: <span t-field="o.company_id.website"/></li>
+                        </ul>
+
+                        <ul class="list-inline">
+                            <li><span>Freight Class: 50</span>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;bull;</li>
+                            <li><span>CAS: 1318-02-1</span>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;bull;</li>
+                            <li><span>HS Code: 2530.90.9999</span></li>
+                        </ul>
+
+
+                        <ul class="list-inline" name="financial_infos">
+                            <li t-if="o.company_id.vat">TIN: <span t-field="o.company_id.vat"/></li>
+                        </ul>
+
+                        <t>
+                            <span t-raw="o.company_id.rml_footer"/>
+                        </t>
+
+                        <ul class="list-inline">
+                            <li>Page:</li>
+                            <li><span class="page"/></li>
+                            <li>/</li>
+                            <li><span class="topage"/></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+
+            </t>
+         </t>
+    </template>
+
+
+
+
+
+
+    <template id="report_freight_vendor_deliveryslip">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="kmizeolite.report_freight_vendor_deliveryslip_document" t-lang="o.partner_id.lang"/>
+        </t>
+    </template>
+
+</odoo>

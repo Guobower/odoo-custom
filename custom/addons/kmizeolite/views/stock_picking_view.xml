@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+    <!--        inherited picking form view-->
+    <record id="kmi_picking_form_inherit" model="ir.ui.view">
+        <field name="name">kmi.sale.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+
+            <button name="action_confirm" position="after">
+                <button name="action_freight_vendor_quotation_send" string="Send Freight Vendor Quote" type="object" attrs="{'invisible':['|', ('pick_type', '!=', 'outgoing'), ('state', 'in' ,('done', 'cancel'))]}" class="btn-primary"/>
+            </button>
+            <field name="min_date" position="before">
+                <field name="pick_type" invisible="1"/>
+            </field>
+
+        </field>
+    </record>
+
+
+
+
+
+
+
+    </data>
+</odoo>
+

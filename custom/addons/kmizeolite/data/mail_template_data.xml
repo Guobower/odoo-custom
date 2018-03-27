@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!--freight broker Email template for order -->
+        <record id="quote_email_template_freight_vendor" model="mail.template">
+            <field name="name">Freight Quote - Send by Email</field>
+            <field name="email_from">${(object.user_id.email and '%s &lt;%s&gt;' % (object.user_id.name, object.user_id.email) or '')|safe}</field>
+            <field name="subject">Please provide a freight quote for order ${object.name}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="report_template" ref="action_report_freight_vendor_pickticket"/>
+            <field name="report_name">${(object.name or '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Hello,</p>
+    
+    <p>Please provide a freight quote for order ${object.name}. Refer the attached file for more information.</p>
+
+
+    <br/>
+    <p>If you have any question, do not hesitate to contact us.</p>
+
+    <br/>
+    <br/>
+    <div style="width: 230px; padding: 2px; background-color: #67A457; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+        <h3 style="margin: 0px; padding: 2px; font-size: 12px; color: #000000;">
+            <strong style="text-transform:uppercase;">${object.company_id.name}</strong></h3>
+    </div>
+    <div style="width: 230px; padding: 2px; line-height: 16px; background-color: #B3CD9D;">
+        <div>
+            5390 E. Nye County Rd,
+        </div>
+        <div>
+            Amargosa Valley, NV 89020, USA
+        </div>
+
+        <div>
+            <a style="color:#007000 ;" href="https://goo.gl/maps/vm4AvoPrbm12">https://goo.gl/maps/vm4AvoPrbm12</a>
+        </div>
+
+        % if object.company_id.phone:
+            <div style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; ">
+                Phone:&nbsp; ${object.company_id.phone}
+            </div>
+        % endif
+        % if object.company_id.website:
+            <div>
+                Web :&nbsp;<a style="color:#007000 ;" href="${object.company_id.website}">${object.company_id.website}</a>
+            </div>
+        %endif
+        <p></p>
+    </div>
+</div><p></p>
+    <img  width="120" height="97" src=${object.company_id.get_base_url() or ''}/odoo/get_company_logo?company_id=${object.company_id.id or ''} />
+            ]]></field>
+        </record>
+
+
+
+        <!--freight broker Email template for picking -->
+        <record id="quote_email_template_freight_vendor_picking" model="mail.template">
+            <field name="name">Freight Quote - Send by Email</field>
+            <field name="email_from">${(object.sale_id.user_id.email and '%s &lt;%s&gt;' % (object.sale_id.user_id.name, object.sale_id.user_id.email) or '')|safe}</field>
+            <field name="subject">Please provide a freight quote for order ${object.sale_id.name or object.name}</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="report_template" ref="stock.action_report_delivery"/>
+            <field name="report_name">${(object.sale_id.name or object.name or '').replace('/','_')}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Hello,</p>
+    
+    <p>Please provide a freight quote for order ${object.sale_id.name or object.name}. Refer the attached file for more information.</p>
+
+
+    <br/>
+    <p>If you have any question, do not hesitate to contact us.</p>
+
+    <br/>
+    <br/>
+    <div style="width: 230px; padding: 2px; background-color: #67A457; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+        <h3 style="margin: 0px; padding: 2px; font-size: 12px; color: #000000;">
+            <strong style="text-transform:uppercase;">${object.company_id.name}</strong></h3>
+    </div>
+    <div style="width: 230px; padding: 2px; line-height: 16px; background-color: #B3CD9D;">
+
+        <div>
+            5390 E. Nye County Rd,
+        </div>
+        <div>
+            Amargosa Valley, NV 89020, USA
+        </div>
+
+        <div>
+            <a style="color:#007000 ;" href="https://goo.gl/maps/vm4AvoPrbm12">https://goo.gl/maps/vm4AvoPrbm12</a>
+        </div>
+        % if object.company_id.phone:
+            <div style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; ">
+                Phone:&nbsp; ${object.company_id.phone}
+            </div>
+        % endif
+        % if object.company_id.website:
+            <div>
+                Web :&nbsp;<a style="color:#007000 ;" href="${object.company_id.website}">${object.company_id.website}</a>
+            </div>
+        %endif
+        <p></p>
+    </div>
+</div><p></p>
+    <img width="120" height="97" src=${object.company_id.get_base_url() or ''}/odoo/get_company_logo?company_id=${object.company_id.id or ''} />
+            ]]></field>
+        </record>
+
+
+
+
+        <!--Email template -->
+        <record id="sale.email_template_edi_sale" model="mail.template">
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Hello ${object.partner_id.name},</p>
+    
+    <p>Here is your ${object.state in ('draft', 'sent') and 'quotation' or 'order confirmation'} from ${object.company_id.name}: </p>
+
+    <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+       &nbsp;&nbsp;<strong>REFERENCES</strong><br />
+       &nbsp;&nbsp;Order number: <strong>${object.name}</strong><br />
+       &nbsp;&nbsp;Order total: <strong>${object.amount_total} ${object.pricelist_id.currency_id.name}</strong><br />
+       &nbsp;&nbsp;Order date:  ${format_tz(object.date_order, tz=user.tz, context={'lang':object.partner_id.lang})} <br />
+       % if object.origin:
+       &nbsp;&nbsp;Order reference: ${object.origin}<br />
+       % endif
+       % if object.client_order_ref:
+       &nbsp;&nbsp;Your reference: ${object.client_order_ref}<br />
+       % endif
+       % if object.user_id:
+       &nbsp;&nbsp;Your contact: <a href="mailto:${object.user_id.email or ''}?subject=Order%20${object.name}">${object.user_id.name}</a>
+       % endif
+    </p>
+
+    % if object.paypal_url:
+    <br/>
+    <p>It is also possible to directly pay with Paypal:</p>
+        <a style="margin-left: 120px;" href="${object.paypal_url}">
+            <img class="oe_edi_paypal_button" src="/sale/static/img/btn_paynowcc_lg.gif"/>
+        </a>
+    % endif
+
+    <br/>
+    <p>If you have any question, do not hesitate to contact us.</p>
+    <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>
+    <br/>
+    <br/>
+    <div style="width: 230px; padding: 2px; background-color: #67A457; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+        <h3 style="margin: 0px; padding: 2px; font-size: 12px; color: #000000;">
+            <strong style="text-transform:uppercase;">${object.company_id.name}</strong></h3>
+    </div>
+    <div style="width: 230px; padding: 2px; line-height: 16px; background-color: #B3CD9D;">
+
+        % if object.company_id.phone:
+            <div style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; ">
+                Phone:&nbsp; ${object.company_id.phone}
+            </div>
+        % endif
+        % if object.company_id.website:
+            <div>
+                Web :&nbsp;<a style="color:#007000 ;" href="${object.company_id.website}">${object.company_id.website}</a>
+            </div>
+        %endif
+        <p></p>
+    </div>
+</div><p></p>
+    <img width="120" height="97" src=${object.company_id.get_base_url() or ''}/odoo/get_company_logo?company_id=${object.company_id.id or ''} />
+            ]]></field>
+        </record>
+
+
+
+        <!--Email template -->
+        <record id="portal_sale.email_template_edi_sale" model="mail.template">
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+
+    <p>Hello ${object.partner_id.name},</p>
+    
+    <p>Here is your ${object.state in ('draft', 'sent') and 'quotation' or 'order confirmation'} from ${object.company_id.name}: </p>
+
+    <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+       &nbsp;&nbsp;<strong>REFERENCES</strong><br />
+       &nbsp;&nbsp;Order number: <strong>${object.name}</strong><br />
+       &nbsp;&nbsp;Order total: <strong>${object.amount_total} ${object.pricelist_id.currency_id.name}</strong><br />
+       &nbsp;&nbsp;Order date:  ${format_tz(object.date_order, tz=user.tz, context={'lang':object.partner_id.lang})}<br />
+       % if object.validity_date and object.state in ('draft', 'sent'):
+       &nbsp;&nbsp;Expiration date: ${object.validity_date}<br />
+       % endif
+       % if object.origin:
+       &nbsp;&nbsp;Order reference: ${object.origin}<br />
+       % endif
+       % if object.client_order_ref:
+       &nbsp;&nbsp;Your reference: ${object.client_order_ref}<br />
+       % endif
+       % if object.user_id:
+       &nbsp;&nbsp;Your contact: <a href="mailto:${object.user_id.email or ''}?subject=Order%20${object.name}">${object.user_id.name}</a>
+       % endif
+    </p>
+
+    % set signup_url = object.get_signup_url()
+    % if signup_url and object.amount_total:
+    <p>
+    You can access this document and pay online via our Customer Portal:
+    </p>
+        <a style="display:block; width: 150px; height:20px; margin-left: 120px; color: #DDD; font-family: 'Lucida Grande', Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; text-align: center; text-decoration: none !important; line-height: 1; padding: 5px 0px 0px 0px; background-color: #67A457; border-radius: 5px 5px; background-repeat: repeat no-repeat;"
+           href="${signup_url}">View ${object.state in ('draft', 'sent') and 'Quotation' or 'Order'}</a>
+    % endif
+
+    % if object.paypal_url and object.amount_total:
+    <br/>
+    <p>It is also possible to directly pay with Paypal:</p>
+        <a style="margin-left: 120px;" href="${object.paypal_url}">
+            <img class="oe_edi_paypal_button" src="/sale/static/img/btn_paynowcc_lg.gif"/>
+        </a>
+    % endif
+
+    <br/>
+    <p>If you have any question, do not hesitate to contact us.</p>
+    <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>
+    <br/>
+    <br/>
+    <div style="width: 230px; padding: 2px; background-color: #67A457; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+        <h3 style="margin: 0px; padding: 2px; font-size: 12px; color: #000000;">
+            <strong style="text-transform:uppercase;">${object.company_id.name}</strong></h3>
+    </div>
+    <div style="width: 230px; padding: 2px; line-height: 16px; background-color: #B3CD9D;">
+
+        % if object.company_id.phone:
+            <div style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; ">
+                Phone:&nbsp; ${object.company_id.phone}
+            </div>
+        % endif
+        % if object.company_id.website:
+            <div>
+                Web :&nbsp;<a style="color:#007000 ;" href="${object.company_id.website}">${object.company_id.website}</a>
+            </div>
+        %endif
+        <p></p>
+    </div>
+</div><p></p>
+    <img width="120" height="97" src=${object.company_id.get_base_url() or ''}/odoo/get_company_logo?company_id=${object.company_id.id or ''} />
+            ]]></field>
+        </record>
+
+
+
+
+
+
+
+
+
+        <!--Email template -->
+        <record id="account.email_template_edi_invoice" model="mail.template">
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+    <p>Hello ${object.partner_id.name},</p>
+    <p>A new invoice is available for you: </p>
+    
+    <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+       &nbsp;&nbsp;<strong>REFERENCES</strong><br />
+       &nbsp;&nbsp;Invoice number: <strong>${object.number}</strong><br />
+       &nbsp;&nbsp;Invoice total: <strong>${object.amount_total} ${object.currency_id.name}</strong><br />
+       &nbsp;&nbsp;Invoice date: ${object.date_invoice}<br />
+       % if object.origin:
+       &nbsp;&nbsp;Order reference: ${object.origin}<br />
+       % endif
+       % if object.user_id:
+       &nbsp;&nbsp;Your contact: <a href="mailto:${object.user_id.email or ''}?subject=Invoice%20${object.number}">${object.user_id.name}</a>
+       % endif
+    </p>  
+    
+    % if object.paypal_url:
+    <br/>
+    <p>It is also possible to directly pay with Paypal:</p>
+        <a style="margin-left: 120px;" href="${object.paypal_url}">
+            <img class="oe_edi_paypal_button" src="/account/static/src/img/btn_paynowcc_lg.gif"/>
+        </a>
+    % endif
+    
+    <br/>
+    <p>If you have any question, do not hesitate to contact us.</p>
+    <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>
+    <br/>
+    <br/>
+    <div style="width: 230px; padding: 2px; background-color: #67A457; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+        <h3 style="margin: 0px; padding: 2px; font-size: 12px; color: #000000;">
+            <strong style="text-transform:uppercase;">${object.company_id.name}</strong></h3>
+    </div>
+    <div style="width: 230px; padding: 2px; line-height: 16px; background-color: #B3CD9D;">
+
+        % if object.company_id.phone:
+            <div style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; ">
+                Phone:&nbsp; ${object.company_id.phone}
+            </div>
+        % endif
+        % if object.company_id.website:
+            <div>
+                Web :&nbsp;<a style="color:#007000 ;" href="${object.company_id.website}">${object.company_id.website}</a>
+            </div>
+        %endif
+        <p></p>
+    </div>
+</div><p></p>
+    <img width="120" height="97" src=${object.company_id.get_base_url() or ''}/odoo/get_company_logo?company_id=${object.company_id.id or ''} />
+            ]]></field>
+        </record>
+
+
+
+
+
+
+        <!--Email template -->
+        <record id="portal_sale.email_template_edi_invoice" model="mail.template">
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+
+    <p>Hello ${object.partner_id.name},</p>
+
+    <p>A new invoice is available for you: </p>
+    
+    <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+       &nbsp;&nbsp;<strong>REFERENCES</strong><br />
+       &nbsp;&nbsp;Invoice number: <strong>${object.number}</strong><br />
+       &nbsp;&nbsp;Invoice total: <strong>${object.amount_total} ${object.currency_id.name}</strong><br />
+       &nbsp;&nbsp;Invoice date: ${object.date_invoice}<br />
+       % if object.origin:
+       &nbsp;&nbsp;Order reference: ${object.origin}<br />
+       % endif
+       % if object.user_id:
+       &nbsp;&nbsp;Your contact: <a href="mailto:${object.user_id.email or ''}?subject=Invoice%20${object.number}">${object.user_id.name}</a>
+       % endif
+    </p>  
+
+    % set signup_url = object.get_signup_url()
+    % if signup_url:
+    <p>
+    You can access the invoice document and pay online via our Customer Portal:
+    </p>
+        <a style="display:block; width: 150px; height:20px; margin-left: 120px; color: #DDD; font-family: 'Lucida Grande', Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; text-align: center; text-decoration: none !important; line-height: 1; padding: 5px 0px 0px 0px; background-color: #67A457; border-radius: 5px 5px; background-repeat: repeat no-repeat;"
+           href="${signup_url}">View Invoice</a>
+    % endif
+    
+    % if object.paypal_url:
+    <br/>
+    <p>It is also possible to directly pay with Paypal:</p>
+        <a style="margin-left: 120px;" href="${object.paypal_url}">
+            <img class="oe_edi_paypal_button" src="/sale/static/img/btn_paynowcc_lg.gif"/>
+        </a>
+    % endif
+    
+    <br/>
+    <p>If you have any question, do not hesitate to contact us.</p>
+    <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>
+    <br/>
+    <br/>
+    <div style="width: 230px; padding: 2px; background-color: #67A457; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+        <h3 style="margin: 0px; padding: 2px; font-size: 12px; color: #000000;">
+            <strong style="text-transform:uppercase;">${object.company_id.name}</strong></h3>
+    </div>
+    <div style="width: 230px; padding: 2px; line-height: 16px; background-color: #B3CD9D;">
+
+        % if object.company_id.phone:
+            <div style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; ">
+                Phone:&nbsp; ${object.company_id.phone}
+            </div>
+        % endif
+        % if object.company_id.website:
+            <div>
+                Web :&nbsp;<a style="color:#007000 ;" href="${object.company_id.website}">${object.company_id.website}</a>
+            </div>
+        %endif
+        <p></p>
+    </div>
+</div><p></p>
+    <img width="120" height="97" src=${object.company_id.get_base_url() or ''}/odoo/get_company_logo?company_id=${object.company_id.id or ''} />
+            ]]></field>
+        </record>
+
+
+
+
+
+
+
+
+
+        <!--Email template -->
+        <record id="purchase.email_template_edi_purchase" model="mail.template">
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Hello ${object.partner_id.name},</p>
+
+    <p>Here is a ${object.state in ('draft', 'sent') and 'request for quotation' or 'purchase order confirmation'} from ${object.company_id.name}: </p>
+
+    <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+       &nbsp;&nbsp;<strong>REFERENCES</strong><br />
+       &nbsp;&nbsp;RFQ number: <strong>${object.name}</strong><br />
+       &nbsp;&nbsp;RFQ date: ${object.date_order}<br />
+       % if object.origin:
+       &nbsp;&nbsp;RFQ reference: ${object.origin}<br />
+       % endif
+       % if object.partner_ref:
+       &nbsp;&nbsp;Your reference: ${object.partner_ref}<br />
+       % endif
+       % if object.create_uid:
+       &nbsp;&nbsp;Your contact: <a href="mailto:${object.create_uid.email or ''}?subject=Order%20${object.name}">${object.create_uid.name}</a>
+       % endif
+    </p>
+
+    <br/>
+    <p>If you have any question, do not hesitate to contact us.</p>
+    <p>Thank you!</p>
+    <br/>
+    <br/>
+    <div style="width: 230px; padding: 2px; background-color: #67A457; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+        <h3 style="margin: 0px; padding: 2px; font-size: 12px; color: #000000;">
+            <strong style="text-transform:uppercase;">${object.company_id.name}</strong></h3>
+    </div>
+    <div style="width: 230px; padding: 2px; line-height: 16px; background-color: #B3CD9D;">
+
+        % if object.company_id.phone:
+            <div style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; ">
+                Phone:&nbsp; ${object.company_id.phone}
+            </div>
+        % endif
+        % if object.company_id.website:
+            <div>
+                Web :&nbsp;<a style="color:#007000 ;" href="${object.company_id.website}">${object.company_id.website}</a>
+            </div>
+        %endif
+        <p></p>
+    </div>
+</div><p></p>
+    <img width="120" height="97" src=${object.company_id.get_base_url() or ''}/odoo/get_company_logo?company_id=${object.company_id.id or ''} />
+            ]]></field>
+        </record>
+
+
+        <!--Email template -->
+        <record id="purchase.email_template_edi_purchase_done" model="mail.template">
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Hello ${object.partner_id.name},</p>
+
+    <p>Here is a ${object.state in ('draft', 'sent') and 'request for quotation' or 'purchase order confirmation'} from ${object.company_id.name}: </p>
+
+    <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+       &nbsp;&nbsp;<strong>REFERENCES</strong><br />
+       &nbsp;&nbsp;Order number: <strong>${object.name}</strong><br />
+       &nbsp;&nbsp;Order total: <strong>${object.amount_total} ${object.currency_id.name}</strong><br />
+       &nbsp;&nbsp;Order date: ${object.date_order}<br />
+       % if object.origin:
+       &nbsp;&nbsp;Order reference: ${object.origin}<br />
+       % endif
+       % if object.partner_ref:
+       &nbsp;&nbsp;Your reference: ${object.partner_ref}<br />
+       % endif
+       % if object.create_uid:
+       &nbsp;&nbsp;Your contact: <a href="mailto:${object.create_uid.email or ''}?subject=Order%20${object.name}">${object.create_uid.name}</a>
+       % endif
+    </p>
+
+    <br/>
+    <p>If you have any question, do not hesitate to contact us.</p>
+    <p>Thank you!</p>
+    <br/>
+    <br/>
+    <div style="width: 230px; padding: 2px; background-color: #67A457; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+        <h3 style="margin: 0px; padding: 2px; font-size: 12px; color: #000000;">
+            <strong style="text-transform:uppercase;">${object.company_id.name}</strong></h3>
+    </div>
+    <div style="width: 230px; padding: 2px; line-height: 16px; background-color: #B3CD9D;">
+
+        % if object.company_id.phone:
+            <div style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; ">
+                Phone:&nbsp; ${object.company_id.phone}
+            </div>
+        % endif
+        % if object.company_id.website:
+            <div>
+                Web :&nbsp;<a style="color:#007000 ;" href="${object.company_id.website}">${object.company_id.website}</a>
+            </div>
+        %endif
+        <p></p>
+    </div>
+</div><p></p>
+    <img width="120" height="97" src=${object.company_id.get_base_url() or ''}/odoo/get_company_logo?company_id=${object.company_id.id or ''} />
+            ]]></field>
+        </record>
+
+
+
+
+
+
+
+    </data>
+</odoo>

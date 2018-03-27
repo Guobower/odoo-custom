@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <template id="layout_inherit" inherit_id="website.layout">
+             <xpath expr="." position="inside">
+                <script>
+                    document.getElementById('top_menu').getElementsByTagName("li")[0].getElementsByTagName("a")[0].setAttribute('href', 'https://www.kmizeolite.com');
+                </script>
+            </xpath>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="0">
+        <!--Resource: res.partner-->
+        <record id="partner_usps" model="res.partner">
+            <field name="name">Endicia</field>
+            <field name="is_company" eval="True"/>
+            <field name="supplier" eval="True"/>
+            <field name="customer" eval="False"/>
+        </record>
+
+    <record id="delivery_carrier_endicia_usps_fc" model="delivery.carrier">
+        <field name="name">USPS First-Class Mail</field>
+        <field name="fixed_price">0</field>
+        <field name="partner_id" ref="partner_usps"/>
+        <field name="product_sale_ok" eval="False"/>
+        <field name="product_type">service</field>
+        <field name="delivery_type">endicia</field>
+        <field name="endicia_service_type">First-Class Mail</field>
+        <field name="endicia_size">REGULAR</field>
+
+    </record>
+    <record id="delivery_carrier_endicia_usps_fc_package" model="delivery.carrier">
+        <field name="name">USPS First-Class Mail Package</field>
+        <field name="fixed_price">0</field>
+        <field name="partner_id" ref="partner_usps"/>
+        <field name="product_sale_ok" eval="False"/>
+        <field name="product_type">service</field>
+        <field name="delivery_type">endicia</field>
+        <field name="endicia_service_type">First-Class Mail</field>
+        <field name="endicia_size">REGULAR</field>
+        <field name="endicia_container">Parcel</field>
+        
+    </record>
+    <record id="delivery_carrier_endicia_usps_library" model="delivery.carrier">
+        <field name="name">USPS Library Mail</field>
+        <field name="fixed_price">0</field>
+        <field name="partner_id" ref="partner_usps"/>
+        <field name="product_sale_ok" eval="False"/>
+        <field name="product_type">service</field>
+        <field name="delivery_type">endicia</field>
+        <field name="endicia_service_type">Library Mail</field>
+        <field name="endicia_size">REGULAR</field>
+        <field name="endicia_container">Parcel</field>
+        
+    </record>
+     <record id="delivery_carrier_endicia_usps_media" model="delivery.carrier">
+        <field name="name">USPS Media Mail</field>
+        <field name="fixed_price">0</field>
+        <field name="partner_id" ref="partner_usps"/>
+        <field name="product_sale_ok" eval="False"/>
+        <field name="product_type">service</field>
+        <field name="delivery_type">endicia</field>
+        <field name="endicia_service_type">Media Mail</field>
+        <field name="endicia_size">REGULAR</field>
+        <field name="endicia_container">Parcel</field>
+        
+    </record>
+     <record id="delivery_carrier_endicia_usps_parcel_post" model="delivery.carrier">
+        <field name="name">USPS Parcel Post</field>
+        <field name="fixed_price">0</field>
+        <field name="partner_id" ref="partner_usps"/>
+        <field name="product_sale_ok" eval="False"/>
+        <field name="product_type">service</field>
+        <field name="delivery_type">endicia</field>
+        <field name="endicia_service_type">ParcelPost</field>
+        <field name="endicia_size">REGULAR</field>
+        <field name="endicia_container">Parcel</field>
+        
+    </record>
+     <record id="delivery_carrier_endicia_usps_priority" model="delivery.carrier">
+        <field name="name">USPS Priority Mail</field>
+        <field name="fixed_price">0</field>
+        <field name="partner_id" ref="partner_usps"/>
+        <field name="product_sale_ok" eval="False"/>
+        <field name="product_type">service</field>
+        <field name="delivery_type">endicia</field>
+        <field name="endicia_service_type">Priority Mail</field>
+        <field name="endicia_size">REGULAR</field>
+        <field name="endicia_container">Parcel</field>
+
+    </record>
+<!--    <record id="delivery_carrier_endicia_usps_priority_sfrb" model="delivery.carrier">-->
+<!--        <field name="name">USPS Priority Mail Small Flat Rate Box</field>-->
+<!--        <field name="fixed_price">0</field>-->
+<!--        <field name="partner_id" ref="partner_usps"/>-->
+<!--        <field name="product_sale_ok" eval="False"/>-->
+<!--        <field name="product_type">service</field>-->
+<!--        <field name="delivery_type">endicia</field>-->
+<!--        <field name="endicia_service_type">Priority Mail </field>-->
+<!--        <field name="endicia_size">REGULAR</field>-->
+<!--        <field name="endicia_container">SM Flat Rate Box</field>-->
+<!--    </record>-->
+<!--    <record id="delivery_carrier_endicia_usps_priority_mail_express" model="delivery.carrier">-->
+<!--        <field name="name">USPS Priority Mail Express</field>-->
+<!--        <field name="fixed_price">0</field>-->
+<!--        <field name="partner_id" ref="partner_usps"/>-->
+<!--        <field name="product_sale_ok" eval="False"/>-->
+<!--        <field name="product_type">service</field>-->
+<!--        <field name="delivery_type">endicia</field>-->
+<!--        <field name="endicia_service_type">Priority Mail Express</field>-->
+<!--        <field name="service_output">Priority Mail Express</field>-->
+<!--        <field name="endicia_size">REGULAR</field>-->
+<!--        <field name="endicia_container">Parcel</field>-->
+
+<!--    </record>-->
+<!--    <record id="delivery_carrier_endicia_usps_select_barcoded_nonpresorted" model="delivery.carrier">-->
+<!--        <field name="name">USPS Parcel Select Barcoded Nonpresorted</field>-->
+<!--        <field name="fixed_price">0</field>-->
+<!--        <field name="partner_id" ref="partner_usps"/>-->
+<!--        <field name="product_sale_ok" eval="False"/>-->
+<!--        <field name="product_type">service</field>-->
+<!--        <field name="delivery_type">endicia</field>-->
+<!--        <field name="endicia_service_type">Parcel Select Barcoded Nonpresorted</field>-->
+<!--        <field name="service_output">Parcel Select Barcoded Nonpresorted</field>-->
+<!--        <field name="endicia_size">REGULAR</field>-->
+<!--        <field name="endicia_container">Parcel</field>-->
+
+<!--    </record>-->
+<!--    <record id="delivery_carrier_endicia_usps_standard_post" model="delivery.carrier">-->
+<!--        <field name="name">USPS Standard Post</field>-->
+<!--        <field name="fixed_price">0</field>-->
+<!--        <field name="partner_id" ref="partner_usps"/>-->
+<!--        <field name="product_sale_ok" eval="False"/>-->
+<!--        <field name="product_type">service</field>-->
+<!--        <field name="delivery_type">endicia</field>-->
+<!--        <field name="endicia_service_type">Standard Post</field>-->
+<!--        <field name="service_output">Standard Post</field>-->
+<!--        <field name="endicia_size">REGULAR</field>-->
+<!--        <field name="endicia_container">Parcel</field>-->
+        
+<!--    </record>-->
+<!--    <record id="delivery_carrier_endicia_usps_priority_mail_international" model="delivery.carrier">-->
+<!--        <field name="name">USPS Priority Mail International</field>-->
+<!--        <field name="fixed_price">0</field>-->
+<!--        <field name="partner_id" ref="partner_usps"/>-->
+<!--        <field name="product_sale_ok" eval="False"/>-->
+<!--        <field name="product_type">service</field>-->
+<!--        <field name="delivery_type">endicia</field>-->
+<!--        <field name="endicia_service_type">Priority Mail International</field>-->
+<!--        <field name="service_output">Priority Mail International</field>-->
+<!--        <field name="endicia_size">REGULAR</field>-->
+<!--        <field name="endicia_container">Parcel</field>-->
+
+<!--    </record>-->
+<!--        <record id="delivery_carrier_endicia_usps_priority_mail_express_international" model="delivery.carrier">-->
+<!--        <field name="name">USPS Priority Mail Express International</field>-->
+<!--        <field name="fixed_price">0</field>-->
+<!--        <field name="partner_id" ref="partner_usps"/>-->
+<!--        <field name="product_sale_ok" eval="False"/>-->
+<!--        <field name="product_type">service</field>-->
+<!--        <field name="delivery_type">endicia</field>-->
+<!--        <field name="endicia_service_type">Priority Mail Express International</field>-->
+<!--        <field name="service_output">Priority Mail Express International</field>-->
+<!--        <field name="endicia_size">REGULAR</field>-->
+<!--        <field name="endicia_container">Parcel</field>-->
+
+<!--    </record>-->
+   </data>
+</odoo>

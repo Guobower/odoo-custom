@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+    <!--        inherited partner form view-->
+        <record id="kmi_partner_form_inherit" model="ir.ui.view">
+            <field name="name">kmi.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <group  name="purchase" position="inside">
+                    <field name="is_freight_vendor"/>
+                </group>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
+

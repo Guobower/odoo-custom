@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+
+
+<!--            inherited delivery slip doc-->
+    <template id="sale_report_inherit_kmi" inherit_id="stock.report_delivery_document">
+
+
+        <xpath expr="//div[contains(@class, 'page')]/div[contains(@class, 'row')]" position="after">
+            <br/>
+            <div t-if="o.sale_id">
+                <span><strong>Customer Reference PO#:</strong></span> <span t-field="o.sale_id.client_order_ref"/>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[contains(@class, 'row')]" position="before">
+
+            <div class="row" style="padding-bottom:20px">
+                <div class="col-xs-6">
+                    <div>
+                        <span><strong>Pickup Address:</strong></span>
+                    </div>
+                    <div t-if="o.picking_type_id and o.picking_type_id.warehouse_id and o.picking_type_id.warehouse_id.partner_id" name="wh_partner_header">
+                        <div t-field="o.picking_type_id.warehouse_id.partner_id"
+                           t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true}'/>
+                    </div>
+                </div>
+            </div>
+
+        </xpath>
+
+
+        <xpath expr="//div[contains(@class, 'page')]" position="after">
+                <div class="footer">
+                    <div class="text-center" style="border-top: 1px solid black;">
+                        <ul class="list-inline">
+                            <li t-if="o.company_id.phone">Phone: <span t-field="o.company_id.phone"/></li>
+
+                            <li t-if="o.company_id.fax and o.company_id.phone">&amp;bull;</li>
+                            <li t-if="o.company_id.fax">Fax: <span t-field="o.company_id.fax"/></li>
+
+                            <li t-if="o.company_id.email and o.company_id.fax or o.company_id.email and o.company_id.phone">&amp;bull;</li>
+                            <li t-if="o.company_id.email">Email: <span t-field="o.company_id.email"/></li>
+
+                            <li t-if="o.company_id.website and o.company_id.email or o.company_id.website and o.company_id.fax or o.company_id.website and o.company_id.phone">&amp;bull;</li>
+                            <li t-if="o.company_id.website">Website: <span t-field="o.company_id.website"/></li>
+                        </ul>
+
+                        <ul class="list-inline">
+                            <li><span>Freight Class: 50</span>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;bull;</li>
+                            <li><span>CAS: 1318-02-1</span>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;bull;</li>
+                            <li><span>HS Code: 2530.90.9999</span></li>
+                        </ul>
+
+
+                        <ul class="list-inline" name="financial_infos">
+                            <li t-if="o.company_id.vat">TIN: <span t-field="o.company_id.vat"/></li>
+                        </ul>
+
+                        <t>
+                            <span t-raw="o.company_id.rml_footer"/>
+                        </t>
+
+                        <ul class="list-inline">
+                            <li>Page:</li>
+                            <li><span class="page"/></li>
+                            <li>/</li>
+                            <li><span class="topage"/></li>
+                        </ul>
+                    </div>
+                </div>
+        </xpath>
+
+
+
+
+    </template>
+
+
+
+
+<!--            inherited delivery slip in delivery module-->
+    <template id="stock_report_inherit_kmi" inherit_id="delivery.report_delivery_document2">
+        <xpath expr="//span[@t-field='o.weight']" position="after">
+            <span> lb(s)</span>
+        </xpath>
+    </template>
+
+
+
+
+
+
+
+</data>
+</odoo>

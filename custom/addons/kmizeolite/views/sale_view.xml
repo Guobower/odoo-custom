@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+    <!--        inherited sale form view-->
+    <record id="kmi_order_form_inherit" model="ir.ui.view">
+        <field name="name">kmi.sale.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <button name="action_quotation_send" states="sent,sale" position="before">
+                <button name="action_freight_vendor_quotation_send" string="Send Freight Vendor Quote" type="object" states="draft,sent,sale,done" class="btn-primary"/>
+                <button name="action_reset_done" string="Reset To Incomplete" type="object" states="done" />
+            </button>
+
+            <button name="action_done" position="attributes">
+                <attribute name="string">Set As Complete</attribute>
+            </button>
+
+
+            <button name="action_quotation_send" states="sent,sale" position="attributes">
+                <attribute name="states">sent,sale,done</attribute>
+            </button>
+
+        </field>
+    </record>
+
+
+
+    <!--        inherited sale stock form view-->
+    <record id="kmi_sale_stock_order_form_inherit" model="ir.ui.view">
+        <field name="name">kmi.sale.stock.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_stock.view_order_form_inherit_sale_stock"/>
+        <field name="arch" type="xml">
+
+            <field name="picking_policy"  position="after">
+                <field name="weight_order"/>
+                <field name="production_date" attrs="{'readonly':[('state' ,'in', ['cancel','done'])]}"/>
+                <field name="invoiced_date" attrs="{'readonly':[('state' ,'in', ['cancel','done'])]}"/>
+            </field>
+
+        </field>
+    </record>
+
+
+
+
+    <!--        inherited sale order dates form view-->
+    <record id="kmi_sale_order_dates_form_inherit" model="ir.ui.view">
+        <field name="name">kmi.sale.dates.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_order_dates.view_order_form_inherit_sale_stock_inherit_sale_order_dates"/>
+        <field name="arch" type="xml">
+
+            <field name="commitment_date"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+
+            <field name="requested_date" position="replace">
+                <field name="requested_date"/>
+            </field>
+
+
+        </field>
+    </record>
+
+
+
+
+    <!--        inherited sale order tree view-->
+    <record id="kmi_sale_order_tree_inherit" model="ir.ui.view">
+        <field name="name">kmi.sale.order.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+
+            <field name="partner_id" position="after">
+                <field name="client_order_ref"/>
+            </field>
+            <field name="invoice_status" position="before">
+                <field name="state"/>
+            </field>
+
+        </field>
+    </record>
+
+
+    <!--        inherited sale quote tree view-->
+    <record id="kmi_sale_quote_tree_inherit" model="ir.ui.view">
+        <field name="name">kmi.sale.quote.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+
+            <field name="partner_id" position="after">
+                <field name="client_order_ref"/>
+            </field>
+
+        </field>
+    </record>
+
+
+    <!--        inherited sale order search view-->
+    <record id="kmi_view_sale_order_filter_inherit" model="ir.ui.view">
+        <field name="name">kmi.sale.order.filter.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+
+            <field name="name" position="after">
+                <field name="client_order_ref"/>
+            </field>
+
+            <filter name="customer" position="after">
+                <filter string="Status" name="state" domain="[]" context="{'group_by':'state'}"/>
+            </filter>
+
+        </field>
+    </record>
+
+    </data>
+</odoo>
+

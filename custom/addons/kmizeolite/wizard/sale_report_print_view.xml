@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+    <record id="kmi_print_sale_report_view" model="ir.ui.view">
+        <field name="name">Sale Report</field>
+        <field name="model">sale.print.report</field>
+        <field name="arch" type="xml">
+            <form string="Update Inventory">
+                <sheet>
+
+                    <p class="oe_grey">
+                       <b>Please specify the date range.</b>
+                    </p>
+                    <group col="4">
+                      <field name="from_date"/>
+                      <field name="to_date"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Print" type="object" name="print_report"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="action_kmi_print_sale_report" model="ir.actions.act_window">
+        <field name="name">Print Sale Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.print.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="kmi_print_sale_report_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="menu_kmi_print_sale_report_view"
+        name="Print Sale Report"
+        parent="base.menu_sale_report"
+        action="action_kmi_print_sale_report"
+        groups="base.group_sale_manager"
+        sequence="100"/>
+
+
+
+
+    </data>
+</odoo>

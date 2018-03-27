@@ -1,0 +1,68 @@
+<openerp>
+    <data>
+    
+        <!-- ##########  import inventory  ##################### -->
+        <record model="ir.ui.view" id="update_inventory_form">
+            <field name="name">Update Inventory</field>
+            <field name="model">import.inventory</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            <form string="Update Inventory">
+                <sheet>
+
+                    <p class="oe_grey">
+                       <b>Please upload a valid csv file with two columns 'SKU' and 'Quantity' respectively where 'SKU' is the Product SKU and 'Quantity' is the corresponding product quantity.</b>  
+                    </p>
+
+                    <group col="4">
+                      <field name="name"/>
+                      <field name="parent_location_id"/>
+                      <field name="upload_file" filename="file_name" attrs="{'invisible': ['|', ('name', '=', False), ('parent_location_id', '=', False)]}"/>
+                    </group>
+                    <field name="file_name" invisible='1'/>
+                    <separator string='Product Info'/>
+                    <field name="line_ids" context="{'location_id':parent_location_id}">
+                        <tree string="Product Information" editable="bottom">
+                            <field name="product_id"/>
+                            <field name="location_id" domain="[('id', 'child_of', parent.parent_location_id)]"/>
+                            <field name="product_qty"/>
+                        </tree>
+                    </field>
+
+
+                </sheet>
+                <footer>
+                    <button string="Import &amp; Confirm" confirm="You are about to confirm the Inventory update. The product quantities in your inventory will get updated with the provided values.&#xA; Are you sure you want to proceed?" class="oe_highlight" type="object" name="import_data"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+
+
+
+
+
+
+
+        <!-- ########## import inventory action ##################### -->
+        <record id="action_update_inventory" model="ir.actions.act_window">
+            <field name="name">Update Inventory</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">import.inventory</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="update_inventory_form"/>
+            <field name="target">new</field>
+        </record>
+
+<menuitem id="menu_update_inventory"  parent="stock.menu_stock_inventory_control" action='action_update_inventory' sequence="50"/>
+
+
+
+
+
+
+    </data>
+</openerp>

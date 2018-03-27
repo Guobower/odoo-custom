@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+
+
+
+
+    <!--        inherited product.product form view-->
+    <record id="kmi_product_category_form_inherit" model="ir.ui.view">
+        <field name="name">kmi.product_normal_form_view</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+
+            <group name="group_lots_and_weight"  position="replace">
+                <group name="group_lots_and_weight">
+                    <label for="weight" attrs="{'invisible':['|', ('type', 'not in', ['product', 'consu'])]}"/>
+                    <div class="o_row" name="weight" attrs="{'invisible':['|', ('type', 'not in', ['product', 'consu'])]}">
+                        <field name="weight" string="Weight"/>
+                    </div>
+                    <label for="volume" attrs="{'invisible':['|', ('type', 'not in', ['product', 'consu'])]}"/>
+                    <div class="o_row" name="volume" attrs="{'invisible':['|', ('type', 'not in', ['product', 'consu'])]}">
+                        <field name="volume" string="Volume"/>
+                    </div>
+                </group>
+            </group>
+
+        </field>
+    </record>
+
+
+
+
+
+
+
+
+
+
+
+    </data>
+</odoo>
+

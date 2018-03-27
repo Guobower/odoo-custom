@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+
+
+    <!--        inherited sale report view-->
+    <template id="sale_report_inherit_kmi" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@name='payment_term']" position="after">
+
+            <div name="order_weight" t-if="doc.weight_order" class="col-xs-3">
+                <strong>Total Weight:</strong>
+                <p t-field="doc.weight_order"/>
+            </div>
+
+        </xpath>
+    </template>
+
+
+
+
+
+
+</data>
+</odoo>
